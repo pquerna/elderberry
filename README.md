@@ -8,7 +8,7 @@
 
 ## Using EB Server
 
-You previously ran `elderberry github.com/pquerna/example/mything github.com/pquerna/example/ebserver`, and it generated the `ebserver` package. This `main` lets you use reflection for development, and in production builds asserts that the reflect'ed handlers are equal.
+You previously ran `elderberry github.com/pquerna/example/mything github.com/pquerna/example/generated_server`, and it generated the `generated_server` package. This `main` lets you use reflection for development, and in production builds asserts that the reflect'ed handlers are equal.
 
 ```go
 package main
