@@ -15,20 +15,25 @@ package main
 
 import (
 	eb "github.com/pquerna/elderberry"
-	"github.com/pquerna/example/ebserver"
+	"github.com/pquerna/example/generated_server"
 	"github.com/pquerna/example/mything"
 )
+
+// could be an enviroment variable or flag
+const devenv = false
 
 func main() {
 	var server eb.Server
 	if devenv {
-		server = eb.ReflectServer()
+		server = eb.NewDevelopmentServer()
 	} else {
-		server = ebserver.Server()
+		server = generated_server.NewServer()
 	}
-	mything.Register(server)
-	// If the generated handlers do not match the reflected servers here,
-	// eb will panic()
+
+	// Register adds handlers to the Development server (which uses reflection
+	server.Register(mything.BuildHandler())
+
+	// If the generated code does not match the registered handlers here when using `generated_server`, elderberry will panic().
 	server.ListenAndServe()
 }
 
@@ -45,8 +50,8 @@ import (
 	"net/http"
 )
 
-func Register(server *eb.Server)
-	server.Add(eb.Handler{
+func BuildHandler() []eb.Handler
+	return []eb.Handler{eb.Handler{
 		Route: eb.Method("POST").Path("/v1/<int:tenantId>/email"),
 		Middleware: []eb.Middleware{
 			authenticateTenant,
@@ -54,7 +59,7 @@ func Register(server *eb.Server)
 			rateLimit,
 		},
 		Handler: sendEmail,
-	})
+	}}
 }
 
 type Tenant struct {
