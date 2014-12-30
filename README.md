@@ -6,6 +6,8 @@
 
 # Example
 
+## Using Runtime Reflection Server
+
 ```go
 package main
 import (
@@ -16,6 +18,25 @@ import (
 func main() {
 	server := eb.ReflectServer()
 	mything.Register(server)
+	// TOOD: ports and shit.
+	server.ListenAndServe()
+}
+
+```
+
+## Using Generated Server
+
+You previously ran `elderberry github.com/pquerna/example/mything github.com/pquerna/example/ebserver`, and it generated the `ebserver` package.
+
+```go
+package main
+import (
+	"github.com/pquerna/example/ebserver"
+)
+
+func main() {
+	server := ebserver.Server()
+	// your handlers are already registered.
 	// TOOD: ports and shit.
 	server.ListenAndServe()
 }
