@@ -7,6 +7,22 @@
 # Example
 
 ```go
+package main
+import (
+	eb "github.com/pquerna/elderberry"
+	"github.com/pquerna/example/mything"
+)
+
+func main() {
+	server := eb.ReflectServer()
+	mything.Register(server)
+	// TOOD: ports and shit.
+	server.ListenAndServe()
+}
+
+```
+
+```go
 
 package mything
 
@@ -15,8 +31,8 @@ import (
 	"net/http"
 )
 
-func init() {
-	eb.Add(eb.Handler{
+func Register(server *eb.Server)
+	server.Add(eb.Handler{
 		Route: eb.Method("POST").Path("/v1/<int:tenantId>/email"),
 		Middleware: []eb.Middleware{
 			authenticateTenant,
