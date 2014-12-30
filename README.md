@@ -6,42 +6,35 @@
 
 # Example
 
-## Using Runtime Reflection Server
+## Using EB Server
+
+You previously ran `elderberry github.com/pquerna/example/mything github.com/pquerna/example/ebserver`, and it generated the `ebserver` package. This `main` lets you use reflection for development, and in production builds asserts that the reflect'ed handlers are equal.
 
 ```go
 package main
+
 import (
 	eb "github.com/pquerna/elderberry"
+	"github.com/pquerna/example/ebserver"
 	"github.com/pquerna/example/mything"
 )
 
 func main() {
-	server := eb.ReflectServer()
+	var server eb.Server
+	if devenv {
+		server = eb.ReflectServer()
+	} else {
+		server = ebserver.Server()
+	}
 	mything.Register(server)
-	// TOOD: ports and shit.
+	// If the generated handlers do not match the reflected servers here,
+	// eb will panic()
 	server.ListenAndServe()
 }
 
 ```
 
-## Using Generated Server
-
-You previously ran `elderberry github.com/pquerna/example/mything github.com/pquerna/example/ebserver`, and it generated the `ebserver` package.
-
-```go
-package main
-import (
-	"github.com/pquerna/example/ebserver"
-)
-
-func main() {
-	server := ebserver.Server()
-	// your handlers are already registered.
-	// TOOD: ports and shit.
-	server.ListenAndServe()
-}
-
-```
+# example handlers and middlewares.
 
 ```go
 
