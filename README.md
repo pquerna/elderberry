@@ -55,7 +55,9 @@ func BuildHandler() []eb.Handler
 		Route: eb.Method("POST").Path("/v1/<int:tenantId>/email"),
 		Middleware: []eb.Middleware{
 			authenticateTenant,
-			authorizeTenant("tenant.email.send"),
+			// this is a runtime initilized middlware, EB will call authorizeTenant with any parameters
+			// and then add the return value to the middleware chain.
+			eb.Middleware(authorizeTenant, "tenant.email.send"),
 			rateLimit,
 		},
 		Handler: sendEmail,
