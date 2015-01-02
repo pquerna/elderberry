@@ -1,6 +1,6 @@
 # elderberry
 
-`elderberry` is an experiment in Go web frameworks.  It doens't work yet.
+`elderberry` is an experiment in Go web frameworks.  It doesn't work yet.
 
 # README driven development.
 
